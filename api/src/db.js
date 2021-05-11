@@ -30,10 +30,30 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Pokemon } = sequelize.models;
+const { Pokemon, Tipo , PokemonTipos} = sequelize.models;
+const fetch = require("node-fetch");
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
+Pokemon.belongsToMany(Tipo, {through: 'PokemonTipos'});
+Tipo.belongsToMany(Pokemon, {through: 'PokemonTipos'});
+Tipo.findAll().then(function(tipos){
+  fetch(`https://pokeapi.co/api/v2/type`)
+      .then(r => r.json())
+      .then((typos) => {
+        if(typos.results.length !== tipos.length){
+          for(let i = 0; i < typos.results.length; i++){
+            Tipo.findByPk(i).then(function(tipo){
+              if(tipo === null){
+                Tipo.create({
+                  name: typos.results[i].name
+                })
+              }
+            })
+          }
+        }
+    });
+})
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
