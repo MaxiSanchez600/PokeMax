@@ -1,38 +1,78 @@
 import React, {useEffect} from 'react'
 import { connect } from "react-redux";
-import {getPokemons} from "../actions/actions"
-
-export function Contenedor({pokemonsInicio, pokemonsShow, name}){
+import {getPokemons, Filter} from "../actions/actions"
+import Pokemon from './Pokemon.jsx'
+export function Contenedor(props){
+    //Hooks
+    const [mostrar, setMostrar] = React.useState([])
     const [amountInicio, setAmountInicio] = React.useState({
         primera: 0,
-        ultima: 12
+        ultima: 12,
     })
-    //Busco y no encontro nada
-    if(pokemonsShow[0] === 'No se encontro nada'){
-        return(
-            <div>
-                 <h1>No se encontro nada</h1>
-            </div>
-        ) 
-    } else if(pokemonsShow[0] !== 'No se encontro nada' && pokemonsShow.length > 0){
-    //Encontro algo
-    //Hook de lo encontrado
-        return(
-            <div>
-                 <h1>Rendereo las primeras 12</h1>
-                 <label>Siguiente</label>
-                 <label>Anterior</label>
-            </div>
-
-        ) 
+    const [Rfilter, RsetFilter] = React.useState('')
+    //Handles
+    const handleInputChange = function Handle(e){
+      if(document.getElementById('tipo1').checked === true && document.getElementById('tipo2').checked === true){
+        if(e.target.name === 'tipo1') {
+          document.getElementById('tipo2').checked = false
+        }
+        if(e.target.name === 'tipo2'){
+           document.getElementById('tipo1').checked = false
+        }
+      }
+        if(document.getElementById(e.target.name).checked === true){
+          //console.log('Mando una instruccion ACTION')
+          RsetFilter({datos: props.show, tipo: e.target.name + document.getElementById('AD').value})
+          var tmp = props.show.map(obj => obj)
+          props.Filter({datos: tmp, tipo: e.target.name + document.getElementById('AD').value})
+        } else{
+          //Desfiltro
+          RsetFilter('')
+        }
+      
     }
-    //Rendereo el inicio
-    //Hook del inicio
+
+    const handleInputChange2 = function Handle(e){
+      if(document.getElementById('tipo1').checked === true){
+        console.log('Mando una instruccion SELECT')
+        RsetFilter({datos: props.show, tipo: 'tipo1' + e.target.value})
+      }
+      if(document.getElementById('tipo2').checked === true){
+        console.log('Mando una instruccion SELECT')
+        RsetFilter({datos: props.show, tipo: 'tipo2' + e.target.value})
+      }
+    }
+
+    useEffect(() => {
+      if(Rfilter !== ''){
+        setMostrar(props.filter)
+      }
+      else{
+        setMostrar(props.show)
+      }
+    });  
+    const getData= function(){
+      console.log(mostrar)
+    }
     return(
         <div>
-            <h1>Rendereo el inicio</h1>
+            <label>FA</label>
+            <input name = 'tipo1' id = 'tipo1' type = 'checkbox' value = {''} onChange = {handleInputChange}></input>
+            <label>FP</label>
+            <input name = 'tipo2' id = 'tipo2' type = 'checkbox' value = {''} onChange = {handleInputChange}></input>
+            <select id = 'AD' form="carform" onChange = {handleInputChange2}>
+                        <option value="A">Ascendente</option>
+                        <option value="D">Descendente</option>
+            </select>
+            <h1>{(props.show.length === 0) ? 'No se encontraron resultados': 'Mostrando resultados'}</h1>
+              <div>
+                {mostrar.slice(amountInicio.primera, amountInicio.ultima).map(pokemon => <Pokemon
+                    data = {pokemon}
+                />)}
+              </div>
             <label>Siguiente</label>
             <label>Anterior</label>
+            <button onClick={getData}>GetData</button>
         </div>
     )
 }
@@ -40,12 +80,13 @@ export function Contenedor({pokemonsInicio, pokemonsShow, name}){
 const mapStateToProps = (state) => {
     return{
       show: state.Show,
-      concate: state.Concatenadas
+      inicio: state.Inicio,
+      filter: state.Filter,
     }
   }
   
 export default connect(
     mapStateToProps,
-    {getPokemons}
+    {getPokemons, Filter}
   )(Contenedor);
   
