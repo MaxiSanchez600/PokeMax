@@ -9,7 +9,6 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
     switch(action.type){
         case 'GET_FILTER':{
-            console.log('LLEGUE AL FILTER')
             return{
                 ...state,
                 Filter: action.payload.filter,
@@ -36,7 +35,8 @@ const rootReducer = (state = initialState, action) => {
             return{
                 ...state,
                 Anterior: action.payload.viejo,
-                Show: action.payload.show
+                Show: action.payload.show,
+                Filter: []
             }
         case "GET_API_BD_CONCATENAR":
             return{

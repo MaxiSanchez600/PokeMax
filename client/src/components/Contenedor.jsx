@@ -31,23 +31,29 @@ export function Contenedor(props){
         }
       
     }
-
+    
     const handleInputChange2 = function Handle(e){
       if(document.getElementById('tipo1').checked === true){
         var tmp = props.show.map(obj => obj)
-        RsetFilter({datos: tmp, tipo: 'tipo1' + e.target.value})
+        RsetFilter({datos: [], tipo: 'tipo1' + e.target.value})
         props.Filter({datos: tmp, tipo: 'tipo1' + e.target.value})
       }
       if(document.getElementById('tipo2').checked === true){
         var tmp = props.show.map(obj => obj)
-        RsetFilter({datos: tmp, tipo: 'tipo2' + e.target.value})
+        RsetFilter({datos: [], tipo: 'tipo2' + e.target.value})
         props.Filter({datos: tmp, tipo: 'tipo2' + e.target.value})
       }
     }
 
     useEffect(() => {
+      console.log(props.show)
       if(Rfilter !== ''){
-        setMostrar(props.filter)
+        //If no se encontro nada
+        if(!props.filter.length > 0){ //Esta vacio
+          console.log('algo nuevo')
+        } else{
+          setMostrar(props.filter)
+        }
       }
       else{
         setMostrar(props.show)

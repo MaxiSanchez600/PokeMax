@@ -2,22 +2,22 @@ export function Filter(payload){
     console.log(payload)
     return async function(dispatch){
         if(payload.tipo === 'tipo1D'){
-            console.log('Filtro por orden abecedario descendente')
+            //console.log('Filtro por orden abecedario descendente')
             let Filter = payload.datos.sort((a, b) => (a.name < b.name) ? 1 : -1)
             dispatch({type: 'GET_FILTER', payload: {filter:Filter ,nofilter:payload.datos}})
         }
         if(payload.tipo === 'tipo2D'){
-            console.log('Filtro por orden de fuerza descendente')
+            //console.log('Filtro por orden de fuerza descendente')
             let Filter = payload.datos.sort((a, b) => ((a.fuerza < b.fuerza)) ? 1 : -1)
             dispatch({type: 'GET_FILTER', payload: {filter:Filter ,nofilter:payload.datos}})
         }
         if(payload.tipo === 'tipo1A'){
-            console.log('Filtro por orden abecedario ascendente')
+            //console.log('Filtro por orden abecedario ascendente')
             let Filter = payload.datos.sort((a, b) => (a.name > b.name) ? 1 : -1)
             dispatch({type: 'GET_FILTER', payload: {filter:Filter ,nofilter:payload.datos}})
         }
         if(payload.tipo === 'tipo2A'){
-            console.log('Filtro por orden de fuerza ascendente')
+            //console.log('Filtro por orden de fuerza ascendente')
             let Filter = payload.datos.sort((a, b) => ((a.fuerza > b.fuerza)) ? 1 : -1)
             dispatch({type: 'GET_FILTER', payload: {filter:Filter ,nofilter:payload.datos}})
         }
