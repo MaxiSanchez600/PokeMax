@@ -21,9 +21,9 @@ export function Contenedor(props){
         }
       }
         if(document.getElementById(e.target.name).checked === true){
-          //console.log('Mando una instruccion ACTION')
           RsetFilter({datos: props.show, tipo: e.target.name + document.getElementById('AD').value})
           var tmp = props.show.map(obj => obj)
+          console.log(tmp)
           props.Filter({datos: tmp, tipo: e.target.name + document.getElementById('AD').value})
         } else{
           //Desfiltro
@@ -34,12 +34,14 @@ export function Contenedor(props){
 
     const handleInputChange2 = function Handle(e){
       if(document.getElementById('tipo1').checked === true){
-        console.log('Mando una instruccion SELECT')
-        RsetFilter({datos: props.show, tipo: 'tipo1' + e.target.value})
+        var tmp = props.show.map(obj => obj)
+        RsetFilter({datos: tmp, tipo: 'tipo1' + e.target.value})
+        props.Filter({datos: tmp, tipo: 'tipo1' + e.target.value})
       }
       if(document.getElementById('tipo2').checked === true){
-        console.log('Mando una instruccion SELECT')
-        RsetFilter({datos: props.show, tipo: 'tipo2' + e.target.value})
+        var tmp = props.show.map(obj => obj)
+        RsetFilter({datos: tmp, tipo: 'tipo2' + e.target.value})
+        props.Filter({datos: tmp, tipo: 'tipo2' + e.target.value})
       }
     }
 
