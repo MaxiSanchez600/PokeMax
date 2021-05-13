@@ -1,25 +1,33 @@
+var sortedWords = function(a, b) {
+    if (a.word > b.word) {
+        // a and b are considered equal, the order is okay
+        return 1;   
+    }
+
+    if (a.word < b.word) {
+        // "NEW" is considered larger than every other value, the order is wrong
+        return -1;
+    }
+};
+
 export function Filter(payload){
-    console.log(payload)
     return async function(dispatch){
         if(payload.tipo === 'tipo1D'){
-            //console.log('Filtro por orden abecedario descendente')
             let Filter = payload.datos.sort((a, b) => (a.name < b.name) ? 1 : -1)
             dispatch({type: 'GET_FILTER', payload: {filter:Filter ,nofilter:payload.datos}})
         }
         if(payload.tipo === 'tipo2D'){
-            //console.log('Filtro por orden de fuerza descendente')
             let Filter = payload.datos.sort((a, b) => ((a.fuerza < b.fuerza)) ? 1 : -1)
+            console.log(Filter)
             dispatch({type: 'GET_FILTER', payload: {filter:Filter ,nofilter:payload.datos}})
         }
         if(payload.tipo === 'tipo1A'){
-            //console.log('Filtro por orden abecedario ascendente')
             let Filter = payload.datos.sort((a, b) => (a.name > b.name) ? 1 : -1)
             dispatch({type: 'GET_FILTER', payload: {filter:Filter ,nofilter:payload.datos}})
         }
         if(payload.tipo === 'tipo2A'){
-            //console.log('Filtro por orden de fuerza ascendente')
-            let Filter = payload.datos.sort((a, b) => ((a.fuerza > b.fuerza)) ? 1 : -1)
-            dispatch({type: 'GET_FILTER', payload: {filter:Filter ,nofilter:payload.datos}})
+            let Filter = await payload.datos.sort((a, b) => ((a.fuerza > b.fuerza)) ? 1 : -1)
+            dispatch({type: 'GET_FILTER', payload: {filter: Filter ,nofilter:payload.datos}})
         }
     }
     
@@ -33,8 +41,8 @@ export function getPokemons(payload){
             .then(r => r.json())
             .then((pokemons) => {
                 api = pokemons.results;
-                api.forEach(element =>  {
-                      fetch(element.url)
+                api.forEach(async element =>  {
+                     await fetch(element.url)
                       .then(r => r.json())
                       .then((res) => {
                           element.fuerza = res.weight
@@ -52,29 +60,33 @@ export function getPokemons(payload){
 export function getPokemonByTipo(payload, cb){
     let api;
     let concatenada;
+    let counter = 0;
     return async function(dispatch){
         await fetch(`https://pokeapi.co/api/v2/type/${payload.tipo}`)
         .then(r => r.json())
         .then((r) => {
             api = r.pokemon.map(poke => poke.pokemon)
-            api.forEach(element =>  {
-                fetch(element.url)
+            api.forEach(async element =>  {
+                await fetch(element.url)
                 .then(r => r.json())
                 .then((res) => {
                     element.fuerza = res.weight
+                    counter++;
+                    if(counter === api.filter(poke => poke.isCreated === undefined).length){
+                        (fetch(`http://localhost:3001/tipos?tipo=${payload.tipo}&limit=${payload.limit}`)
+                        .then(r => r.json())
+                        .then((r) => {
+                            concatenada = api.concat(r)
+                            if(cb){
+                                dispatch({type: 'GET_API_BD_CONCATENAR_SHOW', payload: {show: r, viejo: concatenada}})
+                            } else{
+                                dispatch({type: 'GET_API_BD_CONCATENAR_SHOW', payload :{show: concatenada, viejo: []}})
+                            }
+                        }))
+                    }
                 })
           })
         })
-        .then(fetch(`http://localhost:3001/tipos?tipo=${payload.tipo}&limit=${payload.limit}`)
-        .then(r => r.json())
-        .then((r) => {
-            concatenada = api.concat(r)
-            if(cb){
-                dispatch({type: 'GET_API_BD_CONCATENAR_SHOW', payload: {show: r, viejo: concatenada}})
-            } else{
-                dispatch({type: 'GET_API_BD_CONCATENAR_SHOW', payload :{show: concatenada, viejo: []}})
-            }
-        }))
     }
 }
 export function getPokemonPropios(payload){

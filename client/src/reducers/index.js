@@ -6,9 +6,15 @@ const initialState = {
     Filter: []
 };
 
-const rootReducer = (state = initialState, action) => {
+const rootReducer =  (state = initialState, action) => {
     switch(action.type){
         case 'GET_FILTER':{
+            return{
+                ...state,
+                Filter: action.payload.filter,
+            }
+        }
+        case 'GET_FILTER_F':{
             return{
                 ...state,
                 Filter: action.payload.filter,
@@ -18,18 +24,21 @@ const rootReducer = (state = initialState, action) => {
             return{
                 ...state,
                 Anterior: [],
-                Show: action.payload
+                Show: action.payload,
+                Filter: []
             }
         case 'UPDATE_BD_SHOW':
             return{
                 ...state,
                 Anterior: action.payload.viejo,
-                Show: action.payload.nuevo
+                Show: action.payload.nuevo,
+                Filter: []
             }
         case 'GET_BD_SHOW':
             return{
                 ...state,
-                Show: action.payload
+                Show: action.payload,
+                Filter: []
             }
         case 'GET_API_BD_CONCATENAR_SHOW':
             return{

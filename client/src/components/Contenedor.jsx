@@ -20,18 +20,24 @@ export function Contenedor(props){
            document.getElementById('tipo1').checked = false
         }
       }
-        if(document.getElementById(e.target.name).checked === true){
-          RsetFilter({datos: props.show, tipo: e.target.name + document.getElementById('AD').value})
+        if(document.getElementById('tipo1').checked === true){
+          RsetFilter({datos: props.show, tipo: 'tipo1' + document.getElementById('AD').value})
           var tmp = props.show.map(obj => obj)
-          console.log(tmp)
-          props.Filter({datos: tmp, tipo: e.target.name + document.getElementById('AD').value})
-        } else{
+          props.Filter({datos: tmp, tipo: 'tipo1' + document.getElementById('AD').value})
+        }else if(document.getElementById('tipo2').checked === true){
+          console.log()
+          RsetFilter({datos: props.show, tipo: 'tipo2'+ document.getElementById('AD').value})
+          //var tmp = props.show.map(obj => obj)
+          console.log('UnaDos')
+          props.Filter({datos: props.show.map(obj => obj), tipo: 'tipo2' + document.getElementById('AD').value})
+        }
+        else{
           //Desfiltro
           RsetFilter('')
         }
       
     }
-    
+
     const handleInputChange2 = function Handle(e){
       if(document.getElementById('tipo1').checked === true){
         var tmp = props.show.map(obj => obj)
@@ -44,16 +50,32 @@ export function Contenedor(props){
         props.Filter({datos: tmp, tipo: 'tipo2' + e.target.value})
       }
     }
-
-    useEffect(() => {
-      console.log(props.show)
+    useEffect(async () => {
       if(Rfilter !== ''){
         //If no se encontro nada
         if(!props.filter.length > 0){ //Esta vacio
-          console.log('algo nuevo')
+          if(document.getElementById('tipo1').checked === true){
+            RsetFilter({datos: props.show, tipo: 'tipo1' + document.getElementById('AD').value})
+            var tmp = props.show.map(obj => obj)
+            props.Filter({datos: tmp, tipo: 'tipo1' + document.getElementById('AD').value})
+          }else if(document.getElementById('tipo2').checked === true){
+            RsetFilter({datos: props.show, tipo: 'tipo2'+ document.getElementById('AD').value})
+            var tmp = props.show.map(obj => obj)
+            //Sort sobre el array sin .fuerza
+            //Por cada objeto pregunta, tiene fuerza
+            //Si no tiene haces el fetch y comparas eso
+            console.log('Una')
+            props.Filter({datos: tmp, tipo: 'tipo2' + document.getElementById('AD').value})
+          }
         } else{
           setMostrar(props.filter)
         }
+      }
+     }, [props.show]);
+    useEffect(async () => {
+      if(Rfilter !== ''){
+        //If no se encontro nada
+        setMostrar(props.filter)
       }
       else{
         setMostrar(props.show)

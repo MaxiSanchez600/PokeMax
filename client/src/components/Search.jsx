@@ -48,7 +48,7 @@ export function Search(props){
                 props.Invert(props.anterior);
             }
     }
-    const handleInputChangeTipo = function Handle(e){
+    const handleInputChangeTipo = async function Handle(e){
         setInput({
             ...input,
             [e.target.name]: e.target.value
