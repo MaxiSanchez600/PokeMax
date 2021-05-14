@@ -13,24 +13,23 @@ var sortedWords = function(a, b) {
 export function Filter(payload){
     return async function(dispatch){
         if(payload.tipo === 'tipo1D'){
-            let Filter = payload.datos.sort((a, b) => (a.name < b.name) ? 1 : -1)
+            let Filter = payload.datos.sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? 1 : -1)
             dispatch({type: 'GET_FILTER', payload: {filter:Filter ,nofilter:payload.datos}})
         }
         if(payload.tipo === 'tipo2D'){
             let Filter = payload.datos.sort((a, b) => ((a.fuerza < b.fuerza)) ? 1 : -1)
-            console.log(Filter)
             dispatch({type: 'GET_FILTER', payload: {filter:Filter ,nofilter:payload.datos}})
         }
         if(payload.tipo === 'tipo1A'){
-            let Filter = payload.datos.sort((a, b) => (a.name > b.name) ? 1 : -1)
+            let Filter = payload.datos.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)
             dispatch({type: 'GET_FILTER', payload: {filter:Filter ,nofilter:payload.datos}})
         }
         if(payload.tipo === 'tipo2A'){
             let Filter = await payload.datos.sort((a, b) => ((a.fuerza > b.fuerza)) ? 1 : -1)
+            console.log(Filter)
             dispatch({type: 'GET_FILTER', payload: {filter: Filter ,nofilter:payload.datos}})
         }
     }
-    
 }
 export function getPokemons(payload){
     let api;
@@ -45,7 +44,7 @@ export function getPokemons(payload){
                      await fetch(element.url)
                       .then(r => r.json())
                       .then((res) => {
-                          element.fuerza = res.weight
+                          element.fuerza = res.stats.filter(elem => elem.stat.name === 'attack')[0].base_stat
                       })
                 })
         })
@@ -119,6 +118,7 @@ export function Invert(payload){
 }
 export function getPokemonByName(payload, cb){
     return async function(dispatch){
+
         const response = await fetch(`http://localhost:3001/pokemons?name=${payload}`)
         const responsejson = await response.json()
         if(responsejson.message){

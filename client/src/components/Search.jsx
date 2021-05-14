@@ -9,7 +9,8 @@ export function Search(props){
         name: '',
         tipo: '',
         creado: 'No',
-        filtro: ''
+        filtro: '',
+        tipos : ''
     });
     //Handle
     const handleInputChange = function Handle(e){
@@ -51,8 +52,9 @@ export function Search(props){
     const handleInputChangeTipo = async function Handle(e){
         setInput({
             ...input,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         })
+        console.log(e.target.value)
         if(input.creado === 'Si'){
             props.getPokemonByTipo({tipo: e.target.value, limit: '30'}, true);
         }
@@ -61,7 +63,12 @@ export function Search(props){
         }
     }
     //Funciones
+
     const onSearch = async function(){
+        setInput({
+            ...input,
+            tipo: ''
+        })
         if(input.name !== ''){
             if(input.creado === 'Si'){
                 props.getPokemonByName(input.name, true);
@@ -71,13 +78,20 @@ export function Search(props){
             }
         }
         else{
-            props.Invert([])
+            props.getPokemons('40')
         }
     }
-
     //UseEffect
     useEffect(async () => {
-             props.getPokemons('40')
+            const response = await fetch('http://localhost:3001/types');
+            const responejson = await response.json();
+            setInput({
+                ...input,
+                tipos: responejson.map(tipo => <option value = {tipo.id}>{tipo.name}</option>)
+            })
+            if(!props.show.length > 0){
+                props.getPokemons('40')
+            }
       }, []);    
     return(
         <div>
@@ -88,8 +102,7 @@ export function Search(props){
                     <label>Buscar por tipo</label>
                     <select name = 'tipo' form="carform" onChange={handleInputChangeTipo}  value= {input.tipo}>
                         <option value= "" selected disabled hidden>Elegir Tipo</option>
-                        <option value="10">Fuego</option>
-                        <option value="11">Agua</option>
+                        {input.tipos}
                     </select>
                     <label>Creado por nosotros</label>
                     <input id = 'cb' type="checkbox" name="creado" value= {input.creado} onChange={handleInputChangeCreado}></input>

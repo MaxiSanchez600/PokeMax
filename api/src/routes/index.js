@@ -31,6 +31,59 @@ router.post('/pokemons', function(req, res){
         return res.json({message: 'Error'})
     })
 })
+
+router.get('/id/', function(req, res){
+  let id = req.query.id;
+  fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+  .then(r => r.json())
+  .then((pokemon) =>{
+      console.log('Encontro en la api')
+      return res.json(pokemon)
+  })
+  .catch(error =>{
+      console.log('No encontro en la api, busca en la BD')
+      Pokemon.findOne({
+          where: {uuid: id},
+        }).then(function(pokemon) {
+          if(pokemon === null){
+              console.log('No encontro en la api, ni en la BD')
+              return res.json({message: 'No se encontro el Pokemon'})
+          }
+          console.log('Encontro en la BD')
+          return res.json(pokemon)
+        }).catch(error => {
+          console.log(error)
+          return res.send(error)
+        })
+  })
+})
+
+router.get('/tipo/', function(req,res){
+  
+      let id = req.query.id;
+      PokemonTipos.findAll({
+        attributes:['tipoId'],
+        where:{
+          pokemonUuid: id
+        },
+      })
+      .then(function(pokemons){
+        Tipo.findAll({
+          attributes:['name'],
+          where:{
+            id: pokemons.map(obj => obj.dataValues.tipoId)
+          },
+        })
+        .then(function(tipos){
+          res.json(tipos.map(tipo => tipo.name))
+        })
+      })
+      .catch(error =>{
+        console.log(error)
+        return res.send(error)
+      })
+    
+})
 router.get('/pokemons/', function(req, res){
     let name = req.query.name;
     fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
@@ -52,7 +105,7 @@ router.get('/pokemons/', function(req, res){
             console.log('Encontro en la BD')
             return res.json(pokemon)
           }).catch(error => {
-            console.log('Se rompio la BD')
+            console.log(error)
             return res.send(error)
           })
     })
@@ -63,6 +116,7 @@ router.get('/types', function(req, res){
     Tipo.findAll()
     .then(function(tipos){
       if(tipos.length !== 0){
+        console.log(tipos)
         return res.json(tipos)
       }
       else{

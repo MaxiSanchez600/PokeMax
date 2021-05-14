@@ -51,12 +51,14 @@ const rootReducer =  (state = initialState, action) => {
             return{
                 ...state,
                 Show: action.payload,
+                Filter: []
             }
         case 'GET_POKE_BY_NAME':
             return{
                 ...state,
                 Show: action.payload.show,
-                Anterior: action.payload.anterior
+                Anterior: action.payload.anterior,
+                Filter: []
             }
         default:
             return state;

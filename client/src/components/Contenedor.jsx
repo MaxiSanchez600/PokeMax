@@ -10,6 +10,10 @@ export function Contenedor(props){
         ultima: 12,
     })
     const [Rfilter, RsetFilter] = React.useState('')
+    const [estados, setEstados] = React.useState({
+      siguiente: null,
+      atras: null
+    })
     //Handles
     const handleInputChange = function Handle(e){
       if(document.getElementById('tipo1').checked === true && document.getElementById('tipo2').checked === true){
@@ -25,14 +29,10 @@ export function Contenedor(props){
           var tmp = props.show.map(obj => obj)
           props.Filter({datos: tmp, tipo: 'tipo1' + document.getElementById('AD').value})
         }else if(document.getElementById('tipo2').checked === true){
-          console.log()
           RsetFilter({datos: props.show, tipo: 'tipo2'+ document.getElementById('AD').value})
-          //var tmp = props.show.map(obj => obj)
-          console.log('UnaDos')
           props.Filter({datos: props.show.map(obj => obj), tipo: 'tipo2' + document.getElementById('AD').value})
         }
         else{
-          //Desfiltro
           RsetFilter('')
         }
       
@@ -50,40 +50,49 @@ export function Contenedor(props){
         props.Filter({datos: tmp, tipo: 'tipo2' + e.target.value})
       }
     }
+
+    const onSiguiente = function (){
+      if(mostrar.length > amountInicio.ultima){
+        setAmountInicio({
+          primera: amountInicio.ultima,
+          ultima: amountInicio.ultima + 12
+        })
+      }
+    }
+
+    const onAnterior = function (){
+      console.log(amountInicio.primera)
+      if(amountInicio.primera > 0){
+        setAmountInicio({
+          primera: amountInicio.primera -12,
+          ultima: amountInicio.ultima - 12
+        })
+      }
+    }
+    //UseEffect
     useEffect(async () => {
+      setAmountInicio({
+        primera: 0,
+        ultima: 12
+      })
       if(Rfilter !== ''){
-        //If no se encontro nada
-        if(!props.filter.length > 0){ //Esta vacio
-          if(document.getElementById('tipo1').checked === true){
-            RsetFilter({datos: props.show, tipo: 'tipo1' + document.getElementById('AD').value})
-            var tmp = props.show.map(obj => obj)
-            props.Filter({datos: tmp, tipo: 'tipo1' + document.getElementById('AD').value})
-          }else if(document.getElementById('tipo2').checked === true){
-            RsetFilter({datos: props.show, tipo: 'tipo2'+ document.getElementById('AD').value})
-            var tmp = props.show.map(obj => obj)
-            //Sort sobre el array sin .fuerza
-            //Por cada objeto pregunta, tiene fuerza
-            //Si no tiene haces el fetch y comparas eso
-            console.log('Una')
-            props.Filter({datos: tmp, tipo: 'tipo2' + document.getElementById('AD').value})
-          }
-        } else{
+        if(!props.filter.length > 0){ 
+          handleInputChange()
+        }
+        } else {
           setMostrar(props.filter)
         }
-      }
-     }, [props.show]);
+      } , [props.show]);
     useEffect(async () => {
       if(Rfilter !== ''){
-        //If no se encontro nada
         setMostrar(props.filter)
       }
       else{
         setMostrar(props.show)
       }
     });  
-    const getData= function(){
-      console.log(mostrar)
-    }
+
+    //Return
     return(
         <div>
             <label>FA</label>
@@ -100,9 +109,8 @@ export function Contenedor(props){
                     data = {pokemon}
                 />)}
               </div>
-            <label>Siguiente</label>
-            <label>Anterior</label>
-            <button onClick={getData}>GetData</button>
+            {mostrar.length > amountInicio.ultima && <label onClick = {onSiguiente}>Siguiente</label>}
+            {amountInicio.primera > 0 && <label onClick = {onAnterior}>Anterior</label>}
         </div>
     )
 }

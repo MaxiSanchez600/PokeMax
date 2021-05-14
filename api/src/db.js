@@ -41,11 +41,14 @@ Tipo.findAll().then(function(tipos){
   fetch(`https://pokeapi.co/api/v2/type`)
       .then(r => r.json())
       .then((typos) => {
+        typos.results = typos.results.filter(tipo => tipo.name !== 'unknown')
+        console.log(typos.results)
         if(typos.results.length !== tipos.length){
           for(let i = 0; i < typos.results.length; i++){
             Tipo.findByPk(i).then(function(tipo){
               if(tipo === null){
                 Tipo.create({
+                  id: i + 1,
                   name: typos.results[i].name
                 })
               }
