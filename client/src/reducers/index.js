@@ -3,21 +3,32 @@ import { Filter } from "../actions/actions";
 const initialState = {
     Anterior: [],
     Show: [],
-    Filter: []
+    Filter: [],
+    Busca: false
 };
 
 const rootReducer =  (state = initialState, action) => {
     switch(action.type){
+        case 'VACIAR':{
+            return{
+                ...state,
+                Show: [],
+                Busca: true,
+                Filter: []
+            }
+        }
         case 'GET_FILTER':{
             return{
                 ...state,
                 Filter: action.payload.filter,
+                Busca: false,
             }
         }
         case 'GET_FILTER_F':{
             return{
                 ...state,
                 Filter: action.payload.filter,
+                Busca: false,
             }
         }
         case 'SWITCH_BD':
@@ -45,7 +56,8 @@ const rootReducer =  (state = initialState, action) => {
                 ...state,
                 Anterior: action.payload.viejo,
                 Show: action.payload.show,
-                Filter: []
+                Filter: [],
+                Busca: false
             }
         case "GET_API_BD_CONCATENAR":
             return{
@@ -58,7 +70,8 @@ const rootReducer =  (state = initialState, action) => {
                 ...state,
                 Show: action.payload.show,
                 Anterior: action.payload.anterior,
-                Filter: []
+                Filter: [],
+                Busca: false
             }
         default:
             return state;

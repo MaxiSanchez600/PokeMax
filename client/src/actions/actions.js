@@ -26,7 +26,6 @@ export function Filter(payload){
         }
         if(payload.tipo === 'tipo2A'){
             let Filter = await payload.datos.sort((a, b) => ((a.fuerza > b.fuerza)) ? 1 : -1)
-            console.log(Filter)
             dispatch({type: 'GET_FILTER', payload: {filter: Filter ,nofilter:payload.datos}})
         }
     }
@@ -56,11 +55,18 @@ export function getPokemons(payload){
         }))
     }
 }
+
+export function Vaciar(){
+    return async function(dispatch){
+        dispatch({type: 'VACIAR', payload: {}})
+    }
+}
 export function getPokemonByTipo(payload, cb){
     let api;
     let concatenada;
     let counter = 0;
     return async function(dispatch){
+        dispatch({type: 'VACIAR', payload: {}})
         await fetch(`https://pokeapi.co/api/v2/type/${payload.tipo}`)
         .then(r => r.json())
         .then((r) => {
@@ -118,7 +124,7 @@ export function Invert(payload){
 }
 export function getPokemonByName(payload, cb){
     return async function(dispatch){
-
+        dispatch({type: 'VACIAR', payload: {}})
         const response = await fetch(`http://localhost:3001/pokemons?name=${payload}`)
         const responsejson = await response.json()
         if(responsejson.message){

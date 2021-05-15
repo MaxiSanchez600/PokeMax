@@ -7,18 +7,26 @@ import Add from './components/Add.jsx';
 import PokemonInfo from './components/PokemonInfo.jsx';
 import { Provider } from "react-redux";
 import store from "./store/index";
+import Inicio from './components/Inicio.jsx'
 function App() {
   return (
     <div className="App">
       <Provider store = {store}>
           <Router>
-          <Nav></Nav>
+            <Route
+              exact path = '/'
+              render = {() => <Inicio></Inicio>}
+            />
             <Route
               path = '/search'
+              render = {() => <Nav></Nav>}
+            />
+            <Route
+              exact path = '/search'
               render = {() => <Search/>}
             />
             <Route
-              path = '/add'
+              path = '/search/add'
               render = {() => <Add/>}
             />
             <Route

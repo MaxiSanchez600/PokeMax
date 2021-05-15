@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import { connect } from "react-redux";
-import {getPokemons, Filter} from "../actions/actions"
+import {getPokemons, Filter, Vaciar} from "../actions/actions"
 import Pokemon from './Pokemon.jsx'
 export function Contenedor(props){
     //Hooks
@@ -16,6 +16,9 @@ export function Contenedor(props){
     })
     //Handles
     const handleInputChange = function Handle(e){
+      if(props.busca === true){
+        console.log('Busca es true')
+      }
       if(document.getElementById('tipo1').checked === true && document.getElementById('tipo2').checked === true){
         if(e.target.name === 'tipo1') {
           document.getElementById('tipo2').checked = false
@@ -71,12 +74,14 @@ export function Contenedor(props){
     }
     //UseEffect
     useEffect(async () => {
+      console.log(props.show)
       setAmountInicio({
         primera: 0,
         ultima: 12
       })
       if(Rfilter !== ''){
         if(!props.filter.length > 0){ 
+          setMostrar(props.show)
           handleInputChange()
         }
         } else {
@@ -103,7 +108,8 @@ export function Contenedor(props){
                         <option value="A">Ascendente</option>
                         <option value="D">Descendente</option>
             </select>
-            <h1>{(props.show.length === 0) ? 'No se encontraron resultados': 'Mostrando resultados'}</h1>
+            
+            <h1>{(props.busca === true) ? 'Buscando Pokemones': (props.show.length === 0) ? 'No se encontraron resultados' : 'Mostrando resultados'}</h1>
               <div>
                 {mostrar.slice(amountInicio.primera, amountInicio.ultima).map(pokemon => <Pokemon
                     data = {pokemon}
@@ -120,11 +126,12 @@ const mapStateToProps = (state) => {
       show: state.Show,
       inicio: state.Inicio,
       filter: state.Filter,
+      busca: state.Busca
     }
   }
   
 export default connect(
     mapStateToProps,
-    {getPokemons, Filter}
+    {getPokemons, Filter, Vaciar}
   )(Contenedor);
   

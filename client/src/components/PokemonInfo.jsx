@@ -14,6 +14,8 @@ export default function PokemonInfo ({id}){
         peso: ''
 
     })
+
+    const [estado, setEstado] = React.useState(false)
     useEffect(async () => {
         const response = await fetch(`http://localhost:3001/id?id=${id}`)
         const responsejson = await response.json()
@@ -32,6 +34,7 @@ export default function PokemonInfo ({id}){
                 altura: responsejson.altura,
                 peso: responsejson.peso
             })
+            setEstado(true)
         }
         else{
             let tmp = []
@@ -49,11 +52,13 @@ export default function PokemonInfo ({id}){
                 altura: responsejson.height,
                 peso: responsejson.weight
             })
-            console.log(pokemon.defensa, pokemon.velocidad)
+            setEstado(true)
         } 
     }, []); 
     return(
+        
         <div>
+            {estado === false && <p>Cargando pokemon</p>}
             {pokemon.img !== '' && <img src= {pokemon.img}></img>}
             <h1>{pokemon.name}</h1>
             <label>{pokemon.id}</label>

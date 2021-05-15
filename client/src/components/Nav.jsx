@@ -7,7 +7,7 @@ export default function Nav(){
             <Link to = '/search'>
                 <span>Search</span>
             </Link>
-            <Link to = '/add'>
+            <Link to = 'search/add'>
                 <span>Add</span>
             </Link>
         </nav>

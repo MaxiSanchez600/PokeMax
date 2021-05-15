@@ -54,7 +54,6 @@ export function Search(props){
             ...input,
             [e.target.name]: e.target.value,
         })
-        console.log(e.target.value)
         if(input.creado === 'Si'){
             props.getPokemonByTipo({tipo: e.target.value, limit: '30'}, true);
         }
@@ -118,7 +117,7 @@ const mapStateToProps = (state) => {
       show: state.Show,
       concate: state.Concatenadas,
       inicio: state.Inicio,
-      anterior: state.Anterior
+      anterior: state.Anterior,
     }
   }
   
