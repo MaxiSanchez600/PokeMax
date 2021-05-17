@@ -2,6 +2,9 @@ import React, {useEffect} from 'react'
 import Contenedor from './Contenedor.jsx'
 import { connect } from "react-redux";
 import {getPokemons, getPokemonByName, getPokemonByTipo, getPokemonPropios, Invert} from "../actions/actions"
+import Logo from '../imgs/logo.png'
+import './css/search.css'
+import Tipos from './Tipos.jsx'
 
 export function Search(props){
     //Hooks
@@ -93,21 +96,26 @@ export function Search(props){
             }
       }, []);    
     return(
-        <div>
-            <h1>Search</h1>
-                <form>
-                    <label>Buscar por nombre</label>
-                    <input name = 'name' type = 'text' onChange={handleInputChange} value={input.name}/>
-                    <label>Buscar por tipo</label>
-                    <select name = 'tipo' form="carform" onChange={handleInputChangeTipo}  value= {input.tipo}>
-                        <option value= "" selected disabled hidden>Elegir Tipo</option>
-                        {input.tipos}
-                    </select>
-                    <label>Creado por nosotros</label>
-                    <input id = 'cb' type="checkbox" name="creado" value= {input.creado} onChange={handleInputChangeCreado}></input>
-                </form>
-                <input type = 'submit' onClick = {onSearch}/>
-                <Contenedor></Contenedor>
+        <div className = 'Padre'>
+            <div className ='divContenedor'>
+                        <div className = 'div1'>
+                            <label>Buscar por <span>nombre</span></label>
+                            <input name = 'name' type = 'text' onChange={handleInputChange} value={input.name} className= 'div1nombre'/>
+                            <input type = 'submit' onClick = {onSearch} className = 'div1button'/>
+                        </div>
+                        <div className = 'div2'>
+                            <label>Buscar por <span>tipo</span></label>
+                            <select name = 'tipo' form="carform" onChange={handleInputChangeTipo}  value= {input.tipo} className= 'div2nombre'>
+                                <option value= "" selected disabled hidden>Elegir Tipo</option>
+                                {input.tipos}
+                            </select>
+                        </div>
+                        <div className = 'div3'>
+                            <label>Creado por <span>nosotros</span></label>
+                            <input className = 'cb' id = 'cb' type="checkbox" name="creado" value= {input.creado} onChange={handleInputChangeCreado}></input>
+                        </div>
+            </div>
+            <Contenedor></Contenedor>
         </div>
     )
 };

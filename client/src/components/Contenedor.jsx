@@ -2,12 +2,13 @@ import React, {useEffect} from 'react'
 import { connect } from "react-redux";
 import {getPokemons, Filter, Vaciar} from "../actions/actions"
 import Pokemon from './Pokemon.jsx'
+import './css/Contenedor.css'
 export function Contenedor(props){
     //Hooks
     const [mostrar, setMostrar] = React.useState([])
     const [amountInicio, setAmountInicio] = React.useState({
         primera: 0,
-        ultima: 12,
+        ultima: 15,
     })
     const [Rfilter, RsetFilter] = React.useState('')
     const [estados, setEstados] = React.useState({
@@ -16,9 +17,7 @@ export function Contenedor(props){
     })
     //Handles
     const handleInputChange = function Handle(e){
-      if(props.busca === true){
-        console.log('Busca es true')
-      }
+      if(document)
       if(document.getElementById('tipo1').checked === true && document.getElementById('tipo2').checked === true){
         if(e.target.name === 'tipo1') {
           document.getElementById('tipo2').checked = false
@@ -37,6 +36,7 @@ export function Contenedor(props){
         }
         else{
           RsetFilter('')
+          setMostrar(props.show)
         }
       
     }
@@ -58,65 +58,74 @@ export function Contenedor(props){
       if(mostrar.length > amountInicio.ultima){
         setAmountInicio({
           primera: amountInicio.ultima,
-          ultima: amountInicio.ultima + 12
+          ultima: amountInicio.ultima + 15
         })
       }
     }
 
     const onAnterior = function (){
-      console.log(amountInicio.primera)
       if(amountInicio.primera > 0){
         setAmountInicio({
-          primera: amountInicio.primera -12,
-          ultima: amountInicio.ultima - 12
+          primera: amountInicio.primera -15,
+          ultima: amountInicio.ultima - 15
         })
       }
     }
     //UseEffect
     useEffect(async () => {
-      console.log(props.show)
-      setAmountInicio({
-        primera: 0,
-        ultima: 12
-      })
-      if(Rfilter !== ''){
-        if(!props.filter.length > 0){ 
-          setMostrar(props.show)
-          handleInputChange()
-        }
-        } else {
-          setMostrar(props.filter)
-        }
-      } , [props.show]);
-    useEffect(async () => {
-      if(Rfilter !== ''){
-        setMostrar(props.filter)
+      console.log('EntroAca')
+      if(props.show.length !== 0){
+        setAmountInicio({
+          primera: 0,
+          ultima: 15
+        })
+        if(Rfilter !== ''){
+          if(!props.filter.length > 0){ 
+            console.log('EntroAcaTambien')
+            setMostrar([])
+            handleInputChange()
+          }
+          }
+          else {
+            setMostrar(props.show)
+          }
       }
       else{
-        setMostrar(props.show)
+        setMostrar([])
       }
-    });  
+      } ,[props.show]);
+    
+      useEffect(async () => {
+        if(props.filter.length > 0){ 
+          setMostrar(props.filter)
+        }
+      } ,[props.filter]);
 
     //Return
     return(
-        <div>
-            <label>FA</label>
-            <input name = 'tipo1' id = 'tipo1' type = 'checkbox' value = {''} onChange = {handleInputChange}></input>
-            <label>FP</label>
-            <input name = 'tipo2' id = 'tipo2' type = 'checkbox' value = {''} onChange = {handleInputChange}></input>
-            <select id = 'AD' form="carform" onChange = {handleInputChange2}>
-                        <option value="A">Ascendente</option>
-                        <option value="D">Descendente</option>
-            </select>
-            
-            <h1>{(props.busca === true) ? 'Buscando Pokemones': (props.show.length === 0) ? 'No se encontraron resultados' : 'Mostrando resultados'}</h1>
+        <div classname = 'divInit'>
+          <div className = "divP">
               <div>
+                <label>Filtrar por orden <span>Alfabetico</span></label>
+                <input name = 'tipo1' id = 'tipo1' type = 'checkbox' value = {''} onChange = {handleInputChange}></input>
+              </div>
+              <div className = 'divMargin'>
+                <label className = 'LabelMargin'>Filtrar por <span>Fuerza</span></label>
+                <input name = 'tipo2' id = 'tipo2' type = 'checkbox' value = {''} onChange = {handleInputChange}></input>
+              </div>
+              <select id = 'AD' form="carform" onChange = {handleInputChange2} className = 'Select'>
+                          <option value="A">Ascendente</option>
+                          <option value="D">Descendente</option>
+              </select>
+            </div>
+            <h1 className = 'h1b'>{(props.busca === true) ? 'Buscando Pokemones': (props.show.length === 0) ? 'No se encontraron resultados' : ''}</h1>
+              <div className = 'divPokemon'>
                 {mostrar.slice(amountInicio.primera, amountInicio.ultima).map(pokemon => <Pokemon
                     data = {pokemon}
                 />)}
               </div>
-            {mostrar.length > amountInicio.ultima && <label onClick = {onSiguiente}>Siguiente</label>}
-            {amountInicio.primera > 0 && <label onClick = {onAnterior}>Anterior</label>}
+            {mostrar.length > amountInicio.ultima && <label className = 'onSiguiente' onClick = {onSiguiente}>Siguiente</label>}
+            {amountInicio.primera > 0 && <label className = 'onAnterior'  onClick = {onAnterior}>Anterior</label>}
         </div>
     )
 }

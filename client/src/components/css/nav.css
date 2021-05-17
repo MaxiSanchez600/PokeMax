@@ -1,0 +1,43 @@
+@font-face{
+    src: url(../../fonts/Gilroy-Light.otf);
+    font-family: GilLight
+}
+
+@font-face{
+    src: url(../../fonts/Gilroy-Bold.ttf);
+    font-family: GilBold
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10%;
+    background-color: #2d2d2d;
+}
+.a {
+    font-family: GilBold;
+    font-size: 16px;
+    color: #edf0f1;
+    text-decoration: none!important;
+}
+
+.logo{
+    cursor: pointer
+}
+
+.nav_links{
+    list-style: none;
+}
+
+.nav_links li{
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+.nav_links li a {
+    transition: all 0.3s ease 0s;
+}
+
+.nav_links li a:hover {
+    color: #EF4036
+}

@@ -2,6 +2,7 @@ import React, {useEffect } from 'react'
 import $ from 'jquery';
 import { connect } from "react-redux";
 import {getPokemons} from "../actions/actions"
+import './css/add.css'
 
 export function Add(props){
     const [input, setInput] = React.useState({

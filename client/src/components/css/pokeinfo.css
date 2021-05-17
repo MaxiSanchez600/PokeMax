@@ -1,0 +1,130 @@
+@font-face{
+    src: url(../../fonts/Gilroy-Light.otf);
+    font-family: GilLight
+}
+
+@font-face{
+    src: url(../../fonts/Gilroy-Bold.ttf);
+    font-family: GilBold
+}
+
+@font-face{
+    src: url(../../fonts/Gilroy-ExtraBold.otf);
+    font-family: GilExtraBold
+}
+.infodiv2{
+    width: 380px;
+    height: 625px;
+    border-radius: 45px;
+    position: relative;
+    z-index: -2;
+    transition: all 0.3s ease 0s;
+}
+
+.infodiv2:hover{
+    transform: scale(1.1);
+}
+.maininfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease 0s;
+
+}
+
+.maininfo:hover{
+    transform: scale(1.1);
+}
+
+.pokeimg {
+    width: 60%;
+    height: 60%;
+    margin-top: 5px;
+}
+
+.infodiv3{
+    background-color: white;
+    width: 380px;
+    height: 350px;
+    border-radius: 45px;
+    position: absolute;
+    bottom: 0;
+    z-index: -1;
+}
+.InfoArriba{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+}
+.InfoArriba div label{
+    padding: 5px;
+    margin-right: 15px;
+    border-radius: 8px;
+    background: rgba(199, 199, 199, .3);
+    color: white;
+    font-size: 16px;
+}
+.idpoke{
+    font-family: GilLight;
+    color: white;
+    margin-top: 15px;
+}
+.namepoke{
+    margin-top: -18px;
+    margin-bottom: 15px;
+    font-family: GilExtraBold;
+    font-size: 50px;
+    color: white;
+}
+.BarrasStats{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 15px;
+    margin-top: -35px;
+}
+.Barras{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 85px;
+    margin-right: 45px;
+}
+.Barras p {
+    margin-top: 30px;
+    font-family: GilExtraBold;
+    padding-right: 10px;
+}
+.StatsNames{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 90px;
+    margin-left: 25px;
+}
+.BarraLabel{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: -21px;
+}
+.ProgressBar{
+    width: 140px;
+    border-radius: 15px;
+    background-color: #E5E5E5;
+    height: 10px;
+    margin-top: 35px;
+    z-index: -2;
+}
+.ProgressBar2{
+    width: 20%;
+    height: 10px;
+    border-radius: 15px;
+    background-color: turquoise;
+    z-index: 1;
+}
+label{
+    margin-top: 25px;
+    font-family: GilLight;
+}

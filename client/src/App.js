@@ -8,9 +8,11 @@ import PokemonInfo from './components/PokemonInfo.jsx';
 import { Provider } from "react-redux";
 import store from "./store/index";
 import Inicio from './components/Inicio.jsx'
+import Back from './imgs/41.jpg'
+
 function App() {
   return (
-    <div className="App">
+    <div id = 'AppP' className="App" style = {{backgroundImage: `url(${Back})`, backgroundSize: '100% 100%', minWidth: '100%', minHeight: '100%', position: 'fixed', top: 0, left: 0}}>
       <Provider store = {store}>
           <Router>
             <Route

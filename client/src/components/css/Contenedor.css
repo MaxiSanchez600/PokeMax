@@ -1,0 +1,75 @@
+@font-face{
+    src: url(../../fonts/Gilroy-Light.otf);
+    font-family: GilLight
+}
+
+@font-face{
+    src: url(../../fonts/Gilroy-Bold.ttf);
+    font-family: GilBold
+}
+
+@font-face{
+    src: url(../../fonts/Gilroy-ExtraBold.otf);
+    font-family: GilExtraBold
+}
+span{
+    font-family: GilExtraBold;
+}
+label{
+    font-family: GilLight;
+    color: #2d2d2d;
+}
+.Select{
+    height: 25px;
+    width: 210px;
+    border-radius: 10px;
+    background: transparent;
+    border-color: #2d2d2d;
+    border-style: solid;
+    outline: none;
+    font-family: GilLight;
+    color: #2d2d2d;
+}
+.divP{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.divMargin{
+    margin-right: 25px;
+    margin-left: 25px;
+}
+
+.divPokemon{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.h1b{
+    font-family: GilLight;
+    align-items: center;
+}
+
+.onSiguiente{
+    font-family: GilExtraBold;
+    color: #2d2d2d;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.onSiguiente:hover {
+    color: #EF4036;
+}
+.onAnterior{
+    font-family: GilExtraBold;
+    color: #2d2d2d;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.onAnterior:hover {
+    color: #EF4036;
+}

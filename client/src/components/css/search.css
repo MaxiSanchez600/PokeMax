@@ -1,0 +1,140 @@
+@font-face{
+    src: url(../../fonts/Gilroy-Light.otf);
+    font-family: GilLight
+}
+
+@font-face{
+    src: url(../../fonts/Gilroy-Bold.ttf);
+    font-family: GilBold
+}
+
+@font-face{
+    src: url(../../fonts/Gilroy-ExtraBold.otf);
+    font-family: GilExtraBold
+}
+span{
+    font-family: GilExtraBold;
+}
+.divContenedor{
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.div1{
+    height: 130px;
+    width: 320px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ef4036;
+    border-radius: 25px;
+    box-shadow: 8px 8px 8px 8px rgba(0,0,0,0.07);
+}
+.div1 label{
+    font-family: GilLight;
+    color: white;
+    font-size: 20px;
+}
+
+.div1nombre{
+    height: 25px;
+    width: 210px;
+    border-radius: 10px;
+    background: transparent;
+    border-color: white;
+    border-style: solid;
+    border-width: thin;
+    outline: none;
+    font-family: GilLight;
+    color: white;
+    font-size: 16px;
+}
+
+.div1button{
+    height: 30px;
+    width: 80px;
+    color: white;
+    background: rgba(199, 199, 199, .3);
+    font-family: GilBold;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.div1button:hover{
+    background: rgba(199, 199, 199, .5);
+}
+
+.div2{
+    height: 130px;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ef4036;
+    border-radius: 25px;
+    box-shadow: 8px 8px 8px 8px rgba(0,0,0,0.07);
+}
+
+.div2nombre{
+    height: 25px;
+    width: 210px;
+    border-radius: 10px;
+    background: transparent;
+    border-color: white;
+    border-style: solid;
+    outline: none;
+    font-family: GilLight;
+    color: white;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.div2nombre option{
+    color: #EF4036;
+}
+
+.div2 label{
+    margin-top: 30px;
+    font-family: GilLight;
+    color: white;
+    font-size: 20px;
+}
+
+.div3{
+    height: 130px;
+    width: 320px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #ef4036;
+    border-radius: 25px;
+    box-shadow: 8px 8px 8px 8px rgba(0,0,0,0.07);
+}
+
+.div3 label{
+    font-family: GilLight;
+    color: white;
+    font-size: 20px;
+}
+
+.cb{
+    border-color: white;
+    border-style: solid;
+    outline: none;
+    color: white;
+    background: rgba(40,40,40,0.2);
+    color: black;
+    margin-top: 5px;
+}
+
+.cb:checked{
+    background: rgba(40,40,40,0.2);
+}

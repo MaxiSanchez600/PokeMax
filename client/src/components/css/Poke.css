@@ -1,0 +1,64 @@
+@font-face{
+    src: url(../../fonts/Gilroy-Light.otf);
+    font-family: GilLight
+}
+
+@font-face{
+    src: url(../../fonts/Gilroy-Bold.ttf);
+    font-family: GilBold
+}
+:root {
+    --color-div: black;
+}
+.atras{
+    margin-top: 45px;
+    margin-bottom: 45px;
+    width: 3%;
+}
+.divPoke{
+    display: flex;
+    flex: 1 0 21%; /* explanation below */
+    margin: 5px;
+    margin-right: 20px;
+    width: 300px;
+    height: 200px;
+    border-radius: 25px;
+    justify-content: space-between;
+    flex-direction: row;
+    transition: all 0.3s ease 0s;
+}
+
+.divPoke:hover{
+    transform: scale(1.1);
+}
+.divPoke img{
+    width: 100%;
+}
+.divPoke h1{
+    font-family: GilLight;
+    color: white;
+}
+
+.subPoke{
+    margin-left: 15px;
+}
+
+.subPoke h1{
+    
+}
+
+.DivLabels {
+    display: flex;
+}
+
+.DivLabels label{
+    padding: 5px;
+    margin-right: 15px;
+    background: rgba(199, 199, 199, .3);
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+}
+.link {
+    text-decoration: none;
+}
