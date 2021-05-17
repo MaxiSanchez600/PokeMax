@@ -29,20 +29,52 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 85px;
     transition: all 0.3s ease 0s;
 
 }
-
+.GifLoading{
+    width: 25%;
+    margin-top: 160px;
+}
 .maininfo:hover{
-    transform: scale(1.1);
+    transform: scale(1);
 }
 
 .pokeimg {
     width: 60%;
     height: 60%;
     margin-top: 5px;
+    -webkit-animation: breathing 5s infinite 
 }
 
+  
+  @keyframes breathing {
+    0% {
+      -webkit-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+  
+    25% {
+      -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+      transform: scale(1);
+    }
+  
+    60% {
+      -webkit-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+  
+    100% {
+      -webkit-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+  }
+  
 .infodiv3{
     background-color: white;
     width: 380px;

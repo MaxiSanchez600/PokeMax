@@ -111,7 +111,7 @@ export function Search(props){
                             </select>
                         </div>
                         <div className = 'div3'>
-                            <label>Creado por <span>nosotros</span></label>
+                            <label className = 'div3label'>Creado por <span>nosotros</span></label>
                             <input className = 'cb' id = 'cb' type="checkbox" name="creado" value= {input.creado} onChange={handleInputChangeCreado}></input>
                         </div>
             </div>

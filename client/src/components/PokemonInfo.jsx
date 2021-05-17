@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import './css/pokeinfo.css'
 import { Link } from 'react-router-dom';
 import Atras from '../imgs/atras.png'
+import Gif from '../imgs/Carga2.gif'
 
 export default function PokemonInfo ({id, color}){
     const [pokemon, setPokemon] = React.useState({
@@ -76,6 +77,7 @@ export default function PokemonInfo ({id, color}){
         if(responsejson.isCreated){
             const response = await fetch(`http://localhost:3001/tipo?id=${id}`)
             const responsejson2 = await response.json()
+            console.log(responsejson2)
             setPokemon({
                 name: responsejson.name,
                 img: '',
@@ -87,7 +89,7 @@ export default function PokemonInfo ({id, color}){
                 velocidad: responsejson.velocidad,
                 altura: responsejson.altura,
                 peso: responsejson.peso,
-                color: Color(responsejson)
+                color: Color(responsejson2)
             })
             setEstado(true)
         }
@@ -114,9 +116,7 @@ export default function PokemonInfo ({id, color}){
     }, []); 
     return(
         <div className ='maininfo'>
-            <Link to = '/search'>
-                <img src = {Atras} className = 'atras'></img>
-            </Link>
+            
     {estado && <div className = 'infodiv2' style = {{backgroundColor: pokemon.color, boxShadow: `0 0 8px ${pokemon.color}`}}>
                     <div className = 'InfoArriba'>
                         <p className = 'idpoke'>{pokemon.id}</p>
@@ -124,7 +124,7 @@ export default function PokemonInfo ({id, color}){
                         <div>
                                 {pokemon.render}
                         </div>
-                        <img className = 'pokeimg' src = {pokemon.img}></img>
+                        {pokemon.img && <img className = 'pokeimg' src = {pokemon.img}></img>}
                     </div>
                     <div className = 'infodiv3'>
                         <div className = 'BarrasStats'>
@@ -178,7 +178,7 @@ export default function PokemonInfo ({id, color}){
                         </div>
                     </div>
             </div>}
-            {!estado && <p>Cargando Pokemon</p>}
+            {!estado && <img className = 'GifLoading' src = {Gif}></img>}
         </div>
     )
 }

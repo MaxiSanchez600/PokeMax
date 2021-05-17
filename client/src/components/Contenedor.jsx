@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import {getPokemons, Filter, Vaciar} from "../actions/actions"
 import Pokemon from './Pokemon.jsx'
 import './css/Contenedor.css'
+import Gif from '../imgs/Carga2.gif'
+
 export function Contenedor(props){
     //Hooks
     const [mostrar, setMostrar] = React.useState([])
@@ -73,7 +75,6 @@ export function Contenedor(props){
     }
     //UseEffect
     useEffect(async () => {
-      console.log('EntroAca')
       if(props.show.length !== 0){
         setAmountInicio({
           primera: 0,
@@ -81,7 +82,6 @@ export function Contenedor(props){
         })
         if(Rfilter !== ''){
           if(!props.filter.length > 0){ 
-            console.log('EntroAcaTambien')
             setMostrar([])
             handleInputChange()
           }
@@ -118,7 +118,7 @@ export function Contenedor(props){
                           <option value="D">Descendente</option>
               </select>
             </div>
-            <h1 className = 'h1b'>{(props.busca === true) ? 'Buscando Pokemones': (props.show.length === 0) ? 'No se encontraron resultados' : ''}</h1>
+            <h1 className = 'h1b'>{(props.busca === true) ? <img className = 'imgloading' src = {Gif}></img>: (props.show.length === 0) ? 'No se encontraron resultados' : ''}</h1>
               <div className = 'divPokemon'>
                 {mostrar.slice(amountInicio.primera, amountInicio.ultima).map(pokemon => <Pokemon
                     data = {pokemon}

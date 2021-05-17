@@ -87,7 +87,7 @@ export default function Pokemon({data}){
         }
     }, [data]);   
     return(
-        <Link to = {`/poke/${pokemon.id}`} className = 'link' onClick = {FilterBack}>
+        <Link to = {`/search/poke/${pokemon.id}`} className = 'link' onClick = {FilterBack}>
             <div className = 'divPoke' style = {{backgroundColor: pokemon.color, boxShadow: `0 0 8px ${pokemon.color}`}}>
                 <div className = 'subPoke'>
                     <h1>{pokemon.name}</h1>

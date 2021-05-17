@@ -32,7 +32,7 @@ function App() {
               render = {() => <Add/>}
             />
             <Route
-              path = '/poke/:id' render = {({match}) => <PokemonInfo id = {match.params.id}></PokemonInfo>}
+              path = '/search/poke/:id' render = {({match}) => <PokemonInfo id = {match.params.id}></PokemonInfo>}
             />
           </Router>
       </Provider>

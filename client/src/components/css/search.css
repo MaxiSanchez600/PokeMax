@@ -119,10 +119,11 @@ span{
     box-shadow: 8px 8px 8px 8px rgba(0,0,0,0.07);
 }
 
-.div3 label{
+.div3label{
     font-family: GilLight;
     color: white;
     font-size: 20px;
+    margin-bottom: 25px;
 }
 
 .cb{
