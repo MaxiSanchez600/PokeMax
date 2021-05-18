@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Atras from '../imgs/atras.png'
 import Gif from '../imgs/Carga2.gif'
 
-export default function PokemonInfo ({id, color}){
+export default function PokemonInfo ({id, color, es}){
     const [pokemon, setPokemon] = React.useState({
         name: '',
         id: '',
@@ -18,7 +18,6 @@ export default function PokemonInfo ({id, color}){
         altura: '',
         peso: '',
         color: ''
-
     })
     const [clases, setClases] = React.useState({
         vida: 233,
@@ -30,94 +29,122 @@ export default function PokemonInfo ({id, color}){
     })
     const [estado, setEstado] = React.useState(false)
     const Color = function(arr){
-        switch (arr[0]){
-            case 'normal':
-                return '#A8A878'
-            case 'fighting':
-                return '#C03028'
-            case 'flying':
-                return '#A890F0'
-            case 'poison':
-                return '#A040A0'
-            case 'rock':
-                return '#B8A038'
-            case 'bug':
-                return '#A8B820'
-            case 'ground':
-                return '#E0C068'
-            case 'ghost':
-                return '#705898'
-            case 'steel':
-                return '#B8B8D0'
-            case 'fire':
-                return '#FB6C6C'
-            case 'water':
-                return '#609FB5'
-            case 'grass':
-                return '#48D0B0'
-            case 'electric':
-                return '#F8D030'
-            case 'psychic':
-                return '#F85888'
-            case 'ice':
-                return '#98D8D8'
-            case 'dragon':
-                return '#7038F8'
-            case 'dark':
-                return '#705848'
-            case 'fairy':
-                return '#DFB4DD'
-            case 'shadow':
-                return '#2D2D2D'
-        }
-}
-    useEffect(async () => {
-        const response = await fetch(`http://localhost:3001/id?id=${id}`)
-        const responsejson = await response.json()
-        if(responsejson.isCreated){
-            const response = await fetch(`http://localhost:3001/tipo?id=${id}`)
-            const responsejson2 = await response.json()
-            console.log(responsejson2)
-            setPokemon({
-                name: responsejson.name,
-                img: '',
-                tipos: responsejson2,
-                id: id,
-                render: responsejson2.map(tipo => <label>{tipo}</label>),
-                fuerza: responsejson.fuerza,
-                defensa: responsejson.defensa,
-                velocidad: responsejson.velocidad,
-                altura: responsejson.altura,
-                peso: responsejson.peso,
-                color: Color(responsejson2)
-            })
-            setEstado(true)
+        if(!arr.length > 0){
+            return '#EF4036'
         }
         else{
-            let tmp = []
-            responsejson.types.map(obj => tmp.push(obj.type.name))
+            switch (arr[0]){
+                case 'normal':
+                    return '#A8A878'
+                case 'fighting':
+                    return '#C03028'
+                case 'flying':
+                    return '#A890F0'
+                case 'poison':
+                    return '#A040A0'
+                case 'rock':
+                    return '#B8A038'
+                case 'bug':
+                    return '#A8B820'
+                case 'ground':
+                    return '#E0C068'
+                case 'ghost':
+                    return '#705898'
+                case 'steel':
+                    return '#B8B8D0'
+                case 'fire':
+                    return '#FB6C6C'
+                case 'water':
+                    return '#609FB5'
+                case 'grass':
+                    return '#48D0B0'
+                case 'electric':
+                    return '#F8D030'
+                case 'psychic':
+                    return '#F85888'
+                case 'ice':
+                    return '#98D8D8'
+                case 'dragon':
+                    return '#7038F8'
+                case 'dark':
+                    return '#705848'
+                case 'fairy':
+                    return '#DFB4DD'
+                case 'shadow':
+                    return '#2D2D2D'
+        }
+    }
+}
+    useEffect(() =>{
+        console.log(es)
+        if(es !== undefined){
             setPokemon({
-                name: responsejson.name,
-                img: responsejson.sprites.front_default,
-                id: responsejson.id,
-                tipos: tmp,
-                render: tmp.map(tipo => <label>{tipo}</label>),
-                vida: responsejson.stats.filter(elem => elem.stat.name === 'hp')[0].base_stat,
-                fuerza: responsejson.stats.filter(elem => elem.stat.name === 'attack')[0].base_stat,
-                defensa: responsejson.stats.filter(elem => elem.stat.name === 'defense')[0].base_stat,
-                velocidad: responsejson.stats.filter(elem => elem.stat.name === 'speed')[0].base_stat,
-                altura: responsejson.height,
-                peso: responsejson.weight,
-                color: Color(tmp)
-            })
-            console.log(pokemon)
+                name: es.name,
+                img: '',
+                id:'',
+                tipos: es.tipos3,
+                render: es.tipos3.map(tipo => <label>{tipo}</label>),
+                vida: ((es.vida === '') ? 0 : es.vida),
+                fuerza: ((es.fuerza === '') ? 0 : es.fuerza),
+                defensa: ((es.defensa === '') ? 0 : es.defensa),
+                velocidad: ((es.velocidad === '') ? 0 : es.velocidad),
+                altura: ((es.altura === '') ? 0 : es.altura),
+                peso: ((es.peso === '') ? 0 : es.peso),
+                color: Color(es.tipos3)
+                })
             setEstado(true)
-        } 
+        }
+    }, [es])
+    useEffect(async () => {
+        console.log(es)
+        if(es === undefined){
+            const response = await fetch(`http://localhost:3001/id?id=${id}`)
+            const responsejson = await response.json()
+            if(responsejson.isCreated){
+                const response = await fetch(`http://localhost:3001/tipo?id=${id}`)
+                const responsejson2 = await response.json()
+                setPokemon({
+                    vida: responsejson.vida,
+                    name: responsejson.name,
+                    img: '',
+                    tipos: responsejson2,
+                    id: id,
+                    render: responsejson2.map(tipo => <label>{tipo}</label>),
+                    fuerza: responsejson.fuerza,
+                    defensa: responsejson.defensa,
+                    velocidad: responsejson.velocidad,
+                    altura: responsejson.altura,
+                    peso: responsejson.peso,
+                    color: Color(responsejson2)
+                })
+                setEstado(true)
+            }
+            else{
+                let tmp = []
+                responsejson.types.map(obj => tmp.push(obj.type.name))
+                setPokemon({
+                    name: responsejson.name,
+                    img: responsejson.sprites.front_default,
+                    id: responsejson.id,
+                    tipos: tmp,
+                    render: tmp.map(tipo => <label>{tipo}</label>),
+                    vida: responsejson.stats.filter(elem => elem.stat.name === 'hp')[0].base_stat,
+                    fuerza: responsejson.stats.filter(elem => elem.stat.name === 'attack')[0].base_stat,
+                    defensa: responsejson.stats.filter(elem => elem.stat.name === 'defense')[0].base_stat,
+                    velocidad: responsejson.stats.filter(elem => elem.stat.name === 'speed')[0].base_stat,
+                    altura: responsejson.height,
+                    peso: responsejson.weight,
+                    color: Color(tmp)
+                })
+                console.log(pokemon)
+                setEstado(true)
+            }
+        }
     }, []); 
     return(
         <div className ='maininfo'>
-            
-    {estado && <div className = 'infodiv2' style = {{backgroundColor: pokemon.color, boxShadow: `0 0 8px ${pokemon.color}`}}>
+
+        {estado && <div className = 'infodiv2' style = {{backgroundColor: pokemon.color, boxShadow: `0 0 8px ${pokemon.color}`}}>
                     <div className = 'InfoArriba'>
                         <p className = 'idpoke'>{pokemon.id}</p>
                         <p className = 'namepoke'>{pokemon.name}</p>
@@ -173,7 +200,6 @@ export default function PokemonInfo ({id, color}){
                                         <div style ={{width: ((pokemon.peso * 100) / clases.peso + '%'), backgroundColor: pokemon.color}}  className = 'ProgressBar2'></div>
                                     </div>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>

@@ -87,6 +87,7 @@ export function Search(props){
     useEffect(async () => {
             const response = await fetch('http://localhost:3001/types');
             const responejson = await response.json();
+            console.log(response)
             setInput({
                 ...input,
                 tipos: responejson.map(tipo => <option value = {tipo.id}>{tipo.name}</option>)

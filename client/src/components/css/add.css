@@ -1,0 +1,167 @@
+.divaddprincipal{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.divadd1{
+    width: 380px;
+    height: 625px;
+    border-radius: 45px;
+    background-color: #EF4036;
+    margin-top: 90px;
+    margin-right: 40px;
+}
+
+.divname1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.divname1 label{
+    font-family: GilLight;
+    color: white;
+    font-size: 23px;
+    padding-bottom: 15px;
+}
+
+.divname1 p{
+    font-family: GilLight;
+    color: white;
+    font-size: 15px;
+    margin-top: 5px;
+}
+
+.divname1 input{
+    height: 30px;
+    width: 75%;
+    border-radius: 10px;
+    background: transparent;
+    border-color: white;
+    border-style: solid;
+    border-width: thin;
+    outline: none;
+    font-family: GilLight;
+    color: white;
+    font-size: 16px;
+}
+
+::placeholder {
+    color: white;
+}
+
+.divstats1{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 70px;
+    padding-bottom: 80px;
+}
+.divstats1 div{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 25px;
+}
+.divstats1 div input{
+    width: 35%;
+    height: 28px;
+    border-radius: 10px;
+    background: transparent;
+    border-color: white;
+    border-style: solid;
+    border-width: thin;
+    outline: none;
+    font-family: GilLight;
+    color: white;
+    font-size: 16px;
+}
+
+.divstats1 p{
+    font-family: GilLight;
+    color: white;
+    font-size: 15px;
+    margin-top: -15px;
+}
+
+.divtipo1{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.divtipo1 select{
+    width: 75%;
+    height: 30px;
+    border-radius: 10px;
+    background: transparent;
+    border-color: white;
+    border-style: solid;
+    border-width: thin;
+    outline: none;
+    font-family: GilLight;
+    color: white;
+    font-size: 16px;
+}
+
+.divtipo1 option{
+    color: #EF4036
+}
+
+.divtipo1 p{
+    font-family: GilLight;
+    color: white;
+    font-size: 15px;
+    margin-top: 8px;
+}
+
+.divtipo1 div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: row;
+}
+
+.divtipo1 div label{
+    height: 20px;
+    width: 60px;
+    color: white;
+    background: rgba(199, 199, 199, .3);
+    border-radius: 10px;
+    border-style: solid;
+    border-color: transparent;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.divbutton1 button{
+    height: 30px;
+    width: 80px;
+    color: white;
+    background: rgba(199, 199, 199, .3);
+    font-family: GilBold;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+h4{
+    color: #2d2d2d;
+    font-family: GilLight;
+}
+.but{
+    transition: all 0.3s ease 0s;
+}
+.divbutton1 button:hover{
+    background: rgba(199, 199, 199, .5);
+}
+
+.divaddprincipal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

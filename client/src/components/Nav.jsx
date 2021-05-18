@@ -10,7 +10,7 @@ export default function Nav(){
             <nav classname = 'nav'>
                 <ul className ='nav_links'>
                     <li><Link to = '/search' className = 'a'> <a className = 'a'>Search</a></Link></li>
-                    <li><Link to = 'search/add' className = 'a'><a className = 'a'>Add</a></Link></li>
+                    <li><Link to = '/search/add' className = 'a'><a className = 'a'>Add</a></Link></li>
                 </ul>
             </nav>
         </header>

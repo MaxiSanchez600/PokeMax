@@ -1,0 +1,15 @@
+.divLottie{
+    margin-top: 155px;
+    display: flex;
+    flex-direction: column;
+}
+.ingresar{
+    margin-top: -220px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.ingresar:hover{
+    transform: scale(1.2);
+
+}

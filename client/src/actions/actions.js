@@ -1,14 +1,3 @@
-var sortedWords = function(a, b) {
-    if (a.word > b.word) {
-        // a and b are considered equal, the order is okay
-        return 1;   
-    }
-
-    if (a.word < b.word) {
-        // "NEW" is considered larger than every other value, the order is wrong
-        return -1;
-    }
-};
 
 export function Filter(payload){
     return async function(dispatch){
@@ -31,6 +20,7 @@ export function Filter(payload){
     }
 }
 export function getPokemons(payload){
+    console.log('Llegue')
     let api;
     let bd;
     let concatenada;
@@ -43,13 +33,16 @@ export function getPokemons(payload){
                      await fetch(element.url)
                       .then(r => r.json())
                       .then((res) => {
-                          element.fuerza = res.stats.filter(elem => elem.stat.name === 'attack')[0].base_stat
+                        console.log('EntroApi')
+                        element.fuerza = res.stats.filter(elem => elem.stat.name === 'attack')[0].base_stat
                       })
                 })
+            
         })
         .then(fetch(`http://localhost:3001/bdpokemons?limit=${payload}`)
                 .then(r => r.json())
                 .then((r) =>{
+                    console.log('EntroBD')
                     concatenada = api.concat(r)
                     dispatch({type: 'GET_API_BD_CONCATENAR', payload: concatenada})
         }))
