@@ -44,18 +44,26 @@ export function Add(props){
     }
     const onSend = async function(){
         if(errores.name === '' && errores.stats === '' && errorTipo.tipos === ''){
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(input),
-                headers : { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                   }
+            const response2 = await fetch(`http://localhost:3001/pokemons/?name=${input.name}`)
+            const responsejson2 = await response2.json()
+            console.log(responsejson2)
+            if(!responsejson2.message){
+                setEstado('Ya existe un pokemon con ese nombre')
             }
-            const response = await fetch('http://localhost:3001/pokemons', options)
-            const responejson = await response.json()
-            setEstado(responejson.message)
-            props.getPokemons('40')
+            else{
+                const options = {
+                    method: 'POST',
+                    body: JSON.stringify(input),
+                    headers : { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                       }
+                }
+                const response = await fetch('http://localhost:3001/pokemons', options)
+                const responejson = await response.json()
+                setEstado(responejson.message)
+                props.getPokemons('40')
+            }
         }
         else{
             setEstado('Revisa todos los campos')
@@ -97,46 +105,49 @@ export function Add(props){
         props.getPokemons('40')
     },[])
     return(
-        <div className = 'divaddprincipal'>
-            <div className = 'divadd1'>
-                <div className = 'divname1'>
-                    <label>¡Hora de crear<span> tu Pokemon!</span></label>
-                    <input name = 'name' type = 'text' placeholder = 'name' onChange={handleInputChange} value={input.name}/>
-                    {errores.name && <p>{errores.name}</p>}
-                    {!errores.name && <p>¡Que nombre mas fachero!</p>}
-                </div>
-                <div className ='divstats1'>
-                    <div>
-                        <input type ='number' name = 'vida' placeholder = 'vida' onChange={handleInputChange} value={input.vida}/>
-                        <input type ='number' name = 'fuerza'  placeholder = 'fuerza' onChange={handleInputChange} value={input.fuerza}/>
+        <div>
+            {!props.bdlocal && <h1 className = 'h1b'>Fallo la conexion con el servidor local</h1>}
+            <div className = 'divaddprincipal'>
+                <div className = 'divadd1'>
+                    <div className = 'divname1'>
+                        <label>¡Hora de crear<span> tu Pokemon!</span></label>
+                        <input name = 'name' type = 'text' placeholder = 'name' onChange={handleInputChange} value={input.name}/>
+                        {errores.name && <p>{errores.name}</p>}
+                        {!errores.name && <p>¡Que nombre mas fachero!</p>}
                     </div>
-                    <div>
-                        <input type ='number' name = 'defensa'  placeholder = 'defensa' onChange={handleInputChange} value={input.defensa}/>
-                        <input type ='number' name = 'velocidad'  placeholder = 'velocidad' onChange={handleInputChange} value={input.velocidad}/>
+                    <div className ='divstats1'>
+                        <div>
+                            <input type ='number' name = 'vida' placeholder = 'vida' onChange={handleInputChange} value={input.vida}/>
+                            <input type ='number' name = 'fuerza'  placeholder = 'fuerza' onChange={handleInputChange} value={input.fuerza}/>
+                        </div>
+                        <div>
+                            <input type ='number' name = 'defensa'  placeholder = 'defensa' onChange={handleInputChange} value={input.defensa}/>
+                            <input type ='number' name = 'velocidad'  placeholder = 'velocidad' onChange={handleInputChange} value={input.velocidad}/>
+                        </div>
+                        <div>
+                            <input type ='number' name = 'altura'  placeholder = 'altura' onChange={handleInputChange} value={input.altura}/>
+                            <input type ='number' name = 'peso'  placeholder = 'peso' onChange={handleInputChange} value={input.peso}/>
+                        </div>
+                        {errores.stats && <p>{errores.stats}</p>}
+                        {!errores.stats && <p>Estadisticas muy balanceadas, ¡Genial!</p>}
                     </div>
-                    <div>
-                        <input type ='number' name = 'altura'  placeholder = 'altura' onChange={handleInputChange} value={input.altura}/>
-                        <input type ='number' name = 'peso'  placeholder = 'peso' onChange={handleInputChange} value={input.peso}/>
+                    <div className = 'divtipo1'>
+                        <select name = 'tipo1' form="carform" onChange={handleInputChange2} value = {tipo}>
+                            <option value="" selected disabled hidden>Choose here</option>
+                            {input.tipos2}
+                        </select>
+                        <div>
+                            {input.tipos3.map(tipo => <label>{tipo}</label>)}
+                        </div>
+                        {errorTipo && <p>{errorTipo.tipos}</p>}
                     </div>
-                    {errores.stats && <p>{errores.stats}</p>}
-                    {!errores.stats && <p>Estadisticas muy balanceadas, ¡Genial!</p>}
-                </div>
-                <div className = 'divtipo1'>
-                    <select name = 'tipo1' form="carform" onChange={handleInputChange2} value = {tipo}>
-                        <option value="" selected disabled hidden>Choose here</option>
-                        {input.tipos2}
-                    </select>
-                    <div>
-                        {input.tipos3.map(tipo => <label>{tipo}</label>)}
+                    <div className = 'divbutton1'>
+                        <button className = 'but' onClick = {onSend}>Crear</button>
+                        <h4>{estado}</h4>
                     </div>
-                    {errorTipo && <p>{errorTipo.tipos}</p>}
                 </div>
-                <div className = 'divbutton1'>
-                    <button className = 'but' onClick = {onSend}>Crear</button>
-                    <h4>{estado}</h4>
-                </div>
+                <PokemonInfo es = {input}></PokemonInfo>
             </div>
-            <PokemonInfo es = {input}></PokemonInfo>
         </div>
     )
 
@@ -147,7 +158,8 @@ const mapStateToProps = (state) => {
       show: state.Show,
       concate: state.Concatenadas,
       inicio: state.Inicio,
-      anterior: state.Anterior
+      anterior: state.Anterior,
+      bdlocal: state.bdlocal
     }
   }
   

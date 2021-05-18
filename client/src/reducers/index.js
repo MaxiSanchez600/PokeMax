@@ -4,11 +4,18 @@ const initialState = {
     Anterior: [],
     Show: [],
     Filter: [],
-    Busca: false
+    Busca: false,
+    bdlocal: false,
 };
 
 const rootReducer =  (state = initialState, action) => {
     switch(action.type){
+        case 'CHECK_BD':{
+            return{
+                ...state,
+                bdlocal: action.payload
+            }
+        }
         case 'VACIAR':{
             return{
                 ...state,

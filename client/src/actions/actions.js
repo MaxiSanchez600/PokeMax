@@ -20,7 +20,6 @@ export function Filter(payload){
     }
 }
 export function getPokemons(payload){
-    console.log('Llegue')
     let api;
     let bd;
     let concatenada;
@@ -33,7 +32,6 @@ export function getPokemons(payload){
                      await fetch(element.url)
                       .then(r => r.json())
                       .then((res) => {
-                        console.log('EntroApi')
                         element.fuerza = res.stats.filter(elem => elem.stat.name === 'attack')[0].base_stat
                       })
                 })
@@ -42,7 +40,6 @@ export function getPokemons(payload){
         .then(fetch(`http://localhost:3001/bdpokemons?limit=${payload}`)
                 .then(r => r.json())
                 .then((r) =>{
-                    console.log('EntroBD')
                     concatenada = api.concat(r)
                     dispatch({type: 'GET_API_BD_CONCATENAR', payload: concatenada})
         }))
@@ -144,5 +141,10 @@ export function getPokemonByName(payload, cb){
             }
         }
           
+    }
+}
+export function checkBD(payload){
+    return function(dispatch){
+        dispatch({type: 'CHECK_BD', payload: {payload}})
     }
 }

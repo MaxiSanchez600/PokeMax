@@ -35,6 +35,12 @@ const fetch = require("node-fetch");
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
+Pokemon.afterValidate((pokemon) =>{
+  var sinespacios = (pokemon.name).replace(/\s/g, '')
+  sinespacios = sinespacios.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g,'');
+  sinespacios = sinespacios.replace(/[0-9]/g, "")
+  pokemon.name = sinespacios;
+})
 Pokemon.belongsToMany(Tipo, {through: 'PokemonTipos'});
 Tipo.belongsToMany(Pokemon, {through: 'PokemonTipos'});
 Tipo.findAll().then(function(tipos){
@@ -42,7 +48,6 @@ Tipo.findAll().then(function(tipos){
       .then(r => r.json())
       .then((typos) => {
         typos.results = typos.results.filter(tipo => tipo.name !== 'unknown')
-        console.log(typos.results)
         if(typos.results.length !== tipos.length){
           for(let i = 0; i < typos.results.length; i++){
             Tipo.findByPk(i).then(function(tipo){

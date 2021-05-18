@@ -46,6 +46,8 @@ module.exports = (sequelize) => {
       }
     }
   });
+
+  
   sequelize.define('tipo', {
   id:{
     type: DataTypes.INTEGER,

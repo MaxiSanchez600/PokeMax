@@ -9,7 +9,14 @@ import { Provider } from "react-redux";
 import store from "./store/index";
 import Inicio from './components/Inicio.jsx'
 import Back from './imgs/41.jpg'
-
+fetch('http://localhost:3001/')
+        .then(res => {
+          store.dispatch({type: 'CHECK_BD', payload:true})
+        })
+        .catch(error =>{
+          store.dispatch({type: 'CHECK_BD', payload: false})
+        
+})
 function App() {
   return (
     <div id = 'AppP' className="App" style = {{backgroundImage: `url(${Back})`, backgroundSize: '100% 100%', minWidth: '100%', minHeight: '100%', position: 'fixed', top: 0, left: 0}}>

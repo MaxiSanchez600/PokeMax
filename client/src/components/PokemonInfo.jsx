@@ -3,8 +3,11 @@ import './css/pokeinfo.css'
 import { Link } from 'react-router-dom';
 import Atras from '../imgs/atras.png'
 import Gif from '../imgs/Carga2.gif'
+import { connect } from "react-redux";
+import { checkBD } from '../actions/actions';
 
-export default function PokemonInfo ({id, color, es}){
+
+export function PokemonInfo ({bdlocal, id, color, es}){
     const [pokemon, setPokemon] = React.useState({
         name: '',
         id: '',
@@ -26,6 +29,9 @@ export default function PokemonInfo ({id, color, es}){
         velocidad: 200,
         altura: 200,
         peso: 9500
+    })
+    const[encontrado, setEncontrado] = React.useState({
+        encontrado: ''
     })
     const [estado, setEstado] = React.useState(false)
     const Color = function(arr){
@@ -76,8 +82,7 @@ export default function PokemonInfo ({id, color, es}){
     }
 }
     useEffect(() =>{
-        console.log(es)
-        if(es !== undefined){
+        if(es !== undefined){ //Chequeo si esta renderizando el componente desde Add.jsx
             setPokemon({
                 name: es.name,
                 img: '',
@@ -96,55 +101,69 @@ export default function PokemonInfo ({id, color, es}){
         }
     }, [es])
     useEffect(async () => {
-        console.log(es)
-        if(es === undefined){
-            const response = await fetch(`http://localhost:3001/id?id=${id}`)
-            const responsejson = await response.json()
-            if(responsejson.isCreated){
-                const response = await fetch(`http://localhost:3001/tipo?id=${id}`)
-                const responsejson2 = await response.json()
-                setPokemon({
-                    vida: responsejson.vida,
-                    name: responsejson.name,
-                    img: '',
-                    tipos: responsejson2,
-                    id: id,
-                    render: responsejson2.map(tipo => <label>{tipo}</label>),
-                    fuerza: responsejson.fuerza,
-                    defensa: responsejson.defensa,
-                    velocidad: responsejson.velocidad,
-                    altura: responsejson.altura,
-                    peso: responsejson.peso,
-                    color: Color(responsejson2)
-                })
-                setEstado(true)
+        if(checkBD){ //Chequeo si funciona nuestra BD Local
+            if(es === undefined){ //Chequeo si no esta renderizando el componente desde Add.jsx
+                const response = await fetch(`http://localhost:3001/id?id=${id}`)
+                const responsejson = await response.json()
+                if(responsejson.message){
+                    setEncontrado(false)
+                    setEstado(true)
+                }
+                else{
+                    if(responsejson.isCreated){
+                        const response = await fetch(`http://localhost:3001/tipo?id=${id}`)
+                        const responsejson2 = await response.json()
+                        console.log(responsejson2)
+                        setPokemon({
+                            vida: responsejson.vida,
+                            name: responsejson.name,
+                            img: '',
+                            tipos: responsejson2,
+                            id: id,
+                            render: responsejson2.map(tipo => <label>{tipo}</label>),
+                            fuerza: responsejson.fuerza,
+                            defensa: responsejson.defensa,
+                            velocidad: responsejson.velocidad,
+                            altura: responsejson.altura,
+                            peso: responsejson.peso,
+                            color: Color(responsejson2)
+                        })
+                        setEncontrado(true)
+                        setEstado(true)
+                    }
+                    else{
+                        let tmp = []
+                        responsejson.types.map(obj => tmp.push(obj.type.name))
+                        setPokemon({
+                            name: responsejson.name,
+                            img: responsejson.sprites.front_default,
+                            id: responsejson.id,
+                            tipos: tmp,
+                            render: tmp.map(tipo => <label>{tipo}</label>),
+                            vida: responsejson.stats.filter(elem => elem.stat.name === 'hp')[0].base_stat,
+                            fuerza: responsejson.stats.filter(elem => elem.stat.name === 'attack')[0].base_stat,
+                            defensa: responsejson.stats.filter(elem => elem.stat.name === 'defense')[0].base_stat,
+                            velocidad: responsejson.stats.filter(elem => elem.stat.name === 'speed')[0].base_stat,
+                            altura: responsejson.height,
+                            peso: responsejson.weight,
+                            color: Color(tmp)
+                        })
+                        setEncontrado(true)
+                        setEstado(true)
+                    }
+                }
             }
-            else{
-                let tmp = []
-                responsejson.types.map(obj => tmp.push(obj.type.name))
-                setPokemon({
-                    name: responsejson.name,
-                    img: responsejson.sprites.front_default,
-                    id: responsejson.id,
-                    tipos: tmp,
-                    render: tmp.map(tipo => <label>{tipo}</label>),
-                    vida: responsejson.stats.filter(elem => elem.stat.name === 'hp')[0].base_stat,
-                    fuerza: responsejson.stats.filter(elem => elem.stat.name === 'attack')[0].base_stat,
-                    defensa: responsejson.stats.filter(elem => elem.stat.name === 'defense')[0].base_stat,
-                    velocidad: responsejson.stats.filter(elem => elem.stat.name === 'speed')[0].base_stat,
-                    altura: responsejson.height,
-                    peso: responsejson.weight,
-                    color: Color(tmp)
-                })
-                console.log(pokemon)
-                setEstado(true)
-            }
+        }
+        else{
+            setEncontrado(false)
+            setEstado(true) 
         }
     }, []); 
     return(
         <div className ='maininfo'>
-
-        {estado && <div className = 'infodiv2' style = {{backgroundColor: pokemon.color, boxShadow: `0 0 8px ${pokemon.color}`}}>
+        {!bdlocal && <h1 className = 'Error'>Fallo la conexion con el servidor local</h1>}
+        {(!encontrado && checkBD) && <h1 className = 'Error'>Estas tratando de acceder a un <span>Pokemon inexistente</span></h1>}
+        {(estado && encontrado) && <div className = 'infodiv2' style = {{backgroundColor: pokemon.color, boxShadow: `0 0 8px ${pokemon.color}`}}>
                     <div className = 'InfoArriba'>
                         <p className = 'idpoke'>{pokemon.id}</p>
                         <p className = 'namepoke'>{pokemon.name}</p>
@@ -206,5 +225,18 @@ export default function PokemonInfo ({id, color, es}){
             </div>}
             {!estado && <img className = 'GifLoading' src = {Gif}></img>}
         </div>
+        
     )
 }
+
+
+const mapStateToProps = (state) => {
+    return{
+      bdlocal: state.bdlocal
+    }
+  }
+  
+export default connect(
+    mapStateToProps,
+  )(PokemonInfo);
+  

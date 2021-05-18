@@ -104,7 +104,7 @@ export function Contenedor(props){
     //Return
     return(
         <div classname = 'divInit'>
-          <div className = "divP">
+           <div className = "divP">
               <div>
                 <label>Filtrar por orden <span>Alfabetico</span></label>
                 <input name = 'tipo1' id = 'tipo1' type = 'checkbox' value = {''} onChange = {handleInputChange}></input>
@@ -118,12 +118,13 @@ export function Contenedor(props){
                           <option value="D">Descendente</option>
               </select>
             </div>
-            <h1 className = 'h1b'>{(props.busca === true) ? <img className = 'imgloading' src = {Gif}></img>: (props.show.length === 0) ? 'No se encontraron resultados' : ''}</h1>
+            <h1 className = 'h1b'>{(props.busca === true) ? <img className = 'imgloading' src = {Gif}></img>: (props.show.length === 0 && props.bdlocal === true) ? 'No se encontraron resultados' : ''}</h1>
+            {!props.bdlocal && <h1 className = 'h1b'>Fallo la conexion con el servidor local</h1>}
               <div className = 'divPokemon'>
                 {mostrar.slice(amountInicio.primera, amountInicio.ultima).map(pokemon => <Pokemon
                     data = {pokemon}
                 />)}
-              </div>
+            </div>
             {mostrar.length > amountInicio.ultima && <label className = 'onSiguiente' onClick = {onSiguiente}>Siguiente</label>}
             {amountInicio.primera > 0 && <label className = 'onAnterior'  onClick = {onAnterior}>Anterior</label>}
         </div>
@@ -135,7 +136,8 @@ const mapStateToProps = (state) => {
       show: state.Show,
       inicio: state.Inicio,
       filter: state.Filter,
-      busca: state.Busca
+      busca: state.Busca,
+      bdlocal: state.bdlocal
     }
   }
   

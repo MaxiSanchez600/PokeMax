@@ -3,11 +3,12 @@ import {Link} from 'react-router-dom'
 import Back from '../imgs/41.jpg'
 import Lottie from 'react-lottie';
 import animationData from '../imgs/data.json'
+import {checkBD} from "../actions/actions"
 import animationData2 from '../imgs/data2.json'
 import './css/inicio.css'
-const { Pokemon, conn } = require('/PI-POKEMON-FT12/api/src/db.js');
+import { connect } from "react-redux";
 
-export default function(){
+export function Inicio(props){
   
     const [estado, setEstado] = React.useState(false)     
     const estadoSet = function () {
@@ -30,13 +31,6 @@ export default function(){
         }
       };
       setTimeout(estadoSet, 4000)
-      useEffect(() =>{
-        conn.authenticate()
-        .catch((err) => {
-          console.log('ashei')
-          //console.error('Unable to connect to the database:', err);
-        })
-      })
     return(
         <div className = 'divLottie'>
             <Lottie options = {defaultOptions} height={600} width={800}></Lottie>
@@ -48,3 +42,12 @@ export default function(){
         </div>
     )
 }
+const mapStateToProps = (state) => {
+  return{
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  {checkBD}
+)(Inicio);
